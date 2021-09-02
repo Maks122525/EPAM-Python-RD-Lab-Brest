@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>App</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+<div class = "head">Employees list</div>
+<ul id="navbar">
+    <li><a href="departments.html">Departments</a></li>
+    <li><a href="index.html" class = "active">Employees</a></li>
+    <li><a href = "employees_stuff/add_employees.html" class = "button7">Add</a></li>
+</ul>
+<br><br>
+<div id="filter">
+    <div class="part">
+        <p>Date from: </p>
+    </div>
+    <div class="part">
+        <input type = date></input>
+    </div>
+    <div class="part">
+        <p>by:</p>
+    </div>
+    <div class="part">
+        <input type = date></input>
+    </div>
+    <button class = "reset" onClick='location.href="index_employees.html"'>Reset</button>
+    <button class = "refresh">↺</button>
+</div>
+<div id="filter">
+    <div class="part">
+        <p>Department: </p>
+    </div>
+    <div class="part">
+        <select id="dep" name="dep">
+            <option value="" selected disabled hidden></option>
+            <option value="Bk">Bookkeeping</option>
+            <option value="HRD">Human Resourses Department</option>
+        </select>
+    </div>
+</div>
+<br><br>
+<table id="table" border="2">
+    <shead>
+        <tr>
+            <th>Department</th>
+            <th>Name</th>
+            <th>Date of birth</th>
+            <th>Salary</th>
+            <th class = "min"></th>
+            <th class = "min"></th>
+        </tr>
+    </shead>
+    <tbody>
+    <tr>
+        <td>Bookkeeping</td>
+        <td>Boris Ivanov</td>
+        <td>01.03.2018</td>
+        <td>100</td>
+        <td><a href = "###"><div class="tablebutton" onClick='location.href="employees_stuff/edit_page_1.html"'>🖊</div></a></td>
+        <td><a href = "###"><div class="tablebutton" onClick='location.href="employees_stuff/delete_employees_1.html"'>🗑</div></a></td>
+    </tr>
+    <tr>
+        <td>Bookkeeping</td>
+        <td>Anton Petrov</td>
+        <td>12.03.2018</td>
+        <td>200</td>
+        <td><a href = "###"><div class="tablebutton" onClick='location.href="employees_stuff/edit_page_2.html"'>🖊</div></a></td>
+        <td><a href = "###"><div class="tablebutton" onClick='location.href="employees_stuff/delete_employees_2.html"'>🗑</div></a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
