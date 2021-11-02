@@ -24,4 +24,4 @@ jobs:
           pip install -r requirements.txt
       - name: pylint check
         run: |
-          pylint --load-plugins=pylint_django --django-settings-module=department_project.settings department_project/*    
+          pylint --load-plugins=pylint_django --django-settings-module=project_depatment.settings department_project/*    
