@@ -25,4 +25,32 @@ jobs:
       - name: check kod python
         run: |
          pylint --load-plugins=pylint_django --django-settings-module=project_depatment.settings project_depatment/*
+      - name: Install Coveralls       
+        run:
+          pip install coveralls
+      - name: Run migrations
+        run: python project_depatment/manage.py migrate
+      - name: Testint coverage       
+        run:
+          coverage run --source=project_depatment project_depatment/manage.py test application
+      - name: Coveralls
+        run: coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: mukunku/tag-exists-action@v1.0.0
+        id: checkTag
+        with: 
+          tag: v1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Add release
+        if: github.event.pull_request.merged == true && steps.checkTag.outputs.exists == 'false'
+        uses: actions/create-release@v1
+        with:
+          draft: false
+          prerelease: false
+          tag_name: v1.0
+          release_name: Release v1.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
