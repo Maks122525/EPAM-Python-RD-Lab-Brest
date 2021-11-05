@@ -1,0 +1,58 @@
+name: python_package
+
+on: push
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: psycopg2 prerequisites
+        run: sudo apt-get install libpq-dev
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+          pip install pylint-django
+          pip install -r requirements.txt
+      - name: check kod python
+        run: |
+         pylint --load-plugins=pylint_django --django-settings-module=project_depatment.settings project_depatment/*
+      - name: Install Coveralls       
+        run:
+          pip install coveralls
+      - name: Run migrations
+        run: python project_depatment/manage.py migrate
+      - name: Testint coverage       
+        run:
+          coverage run --source=project_depatment project_depatment/manage.py test application
+      - name: Coveralls
+        run: coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: mukunku/tag-exists-action@v1.0.0
+        id: checkTag
+        with: 
+          tag: v1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Add release
+        if: github.event.pull_request.merged == true && steps.checkTag.outputs.exists == 'false'
+        uses: actions/create-release@v1
+        with:
+          draft: false
+          prerelease: false
+          tag_name: v1.0
+          release_name: Release v1.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
